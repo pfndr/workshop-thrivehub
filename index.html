@@ -3226,18 +3226,65 @@
                 Your own idea this time. Same loop, with an AI copilot.
               </p>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                <Bullet>Scan for <strong style={{ color: ACCENT }}>your account access</strong> to the ProtoVibing app</Bullet>
-                <Bullet>Works on your <strong>laptop or phone</strong></Bullet>
-                <Bullet>Bring <strong>your individual idea</strong>, not the group one</Bullet>
+                <Bullet><strong style={{ color: ACCENT }}>Scan the QR</strong>: the workshop code fills in for you</Bullet>
+                <Bullet>Or visit the URL and <strong>enter the code manually</strong></Bullet>
+                <Bullet>Works on <strong>laptop or phone</strong>. Bring <strong>your individual idea</strong>, not the group one</Bullet>
               </ul>
+              {/* Manual URL, large and visible */}
+              <div style={{
+                marginTop: "1.3rem",
+                display: "inline-block",
+                padding: "0.7rem 1.2rem",
+                background: CARD_BG,
+                border: `1px solid ${CARD_BORDER}`,
+                borderRadius: 12,
+              }}>
+                <span style={{
+                  fontSize: "clamp(1.15rem, 1.8vw, 1.7rem)",
+                  color: TEXT,
+                  fontFamily: MONO,
+                  fontWeight: 700,
+                  letterSpacing: 0.5,
+                }}>
+                  app.protovibing.ai/<span style={{ color: ACCENT }}>signup</span>
+                </span>
+              </div>
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
               <QRPlaceholder
-                label="ProtoVibing access"
-                size={220}
+                label=""
+                size={230}
                 src={QR_SRC.protovibingAccess}
-                url="protovibing.ai"
               />
+              {/* Workshop code, poster-size */}
+              <div style={{
+                textAlign: "center",
+                padding: "0.8rem 1.8rem 0.9rem",
+                background: ACCENT_DIM,
+                border: `1.5px solid ${ACCENT}`,
+                borderRadius: 14,
+              }}>
+                <div style={{
+                  fontSize: "0.7rem",
+                  letterSpacing: 2.6,
+                  color: TEXT_MUTED,
+                  fontWeight: 700,
+                  marginBottom: 6,
+                  textTransform: "uppercase",
+                }}>
+                  Workshop code
+                </div>
+                <div style={{
+                  fontFamily: MONO,
+                  fontSize: "clamp(2.2rem, 3.8vw, 3.4rem)",
+                  fontWeight: 700,
+                  color: ACCENT,
+                  letterSpacing: 8,
+                  lineHeight: 1,
+                }}>
+                  WS-4SVK
+                </div>
+              </div>
             </div>
           </div>
         </SlideShell>
