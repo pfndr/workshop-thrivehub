@@ -19,8 +19,8 @@ Open `index.html` in a browser on a laptop, desktop, or tablet in landscape. Arr
 
 ## In-room printables
 
-- `printables/worksheet.pdf`: Fears (individual) + team hypothesis mad-lib, one per person
-- `printables/role-cards.pdf`: Guide / Scribe / Fresh Eyes role cards, US Letter landscape, cut along the dashed lines
+- [worksheet.pdf](printables/worksheet.pdf): Fears (individual) + team hypothesis mad-lib, one per person
+- [role-cards.pdf](printables/role-cards.pdf): Guide / Scribe / Fresh Eyes role cards, US Letter landscape, cut along the dashed lines
 
 ## Get in touch
 
