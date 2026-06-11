@@ -1889,94 +1889,102 @@
     }
 
     function Slide7() {
-      const loops = [
-        { label: "Loop 1", duration: "~40 min", note: "Each step broken out, slow and guided" },
-        { label: "Loop 2", duration: "~18 min", note: "Idea → Plan → Create combined, then Test" },
-        { label: "Loop 3", duration: "~18 min", note: "Iterate, increase fidelity, final test" },
+      // Slide-scale version of LoopBreadcrumb. Container and chip styling
+      // mirror the live breadcrumb on timer slides exactly — same dark
+      // translucent pill, same chip proportions, same neutral "off" state
+      // (no border, no fill, muted gray) — just rendered a bit larger so
+      // this can carry the slide as content.
+      const chip = {
+        padding: "0.22rem 0.55rem",
+        borderRadius: 6,
+        background: "transparent",
+        border: "1px solid transparent",
+        color: TEXT_MUTED,
+        fontWeight: 700,
+        fontSize: "0.74rem",
+        letterSpacing: 1.3,
+        whiteSpace: "nowrap",
+        fontFamily: FONT_STACK,
+      };
+      const arrow = { color: TEXT_MUTED, opacity: 0.4, fontSize: "0.62rem" };
+      const LoopPill = ({ phases }) => (
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 3,
+          padding: "0.3rem 0.9rem",
+          background: "rgba(15,15,15,0.55)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: 999,
+          backdropFilter: "blur(6px)",
+          WebkitBackdropFilter: "blur(6px)",
+        }}>
+          {phases.map((p, i) => (
+            <React.Fragment key={p}>
+              {i > 0 && <span style={arrow}>&#8594;</span>}
+              <span style={chip}>{p}</span>
+            </React.Fragment>
+          ))}
+        </div>
+      );
+
+      const groupPhases = ["IDEA", "PLAN", "CREATE", "TEST"];
+      const soloPhases  = ["IDEA", "PLAN", "CREATE", "TEST"];
+
+      const groupLoops = [
+        { label: "Loop 1", duration: "~30 min" },
+        { label: "Loop 2", duration: "~15 min" },
+        { label: "Loop 3", duration: "~15 min" },
       ];
+
       return (
         <SlideShell dense>
-          <div style={{ width: "100%", maxWidth: 1280 }}>
+          <div style={{ width: "100%", maxWidth: 1280, textAlign: "center" }}>
             <SlideTitle>Workshop Overview</SlideTitle>
 
-            {/* Horizontal loop timeline */}
-            <div style={{ position: "relative", marginTop: "1rem", marginBottom: "2rem" }}>
-              {/* Connecting line behind nodes */}
-              <div style={{
-                position: "absolute",
-                left: "8%",
-                right: "8%",
-                top: 22,
-                height: 2,
-                background: `linear-gradient(90deg, ${ACCENT} 0%, ${ACCENT} 100%)`,
-                opacity: 0.45,
-                zIndex: 0,
-              }} />
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
-                gap: "1.4rem",
-                position: "relative",
-                zIndex: 1,
-              }}>
-                {loops.map((l, i) => (
-                  <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                    {/* Node dot */}
-                    <div style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: "50%",
-                      background: ACCENT,
-                      color: "#0a0a0a",
-                      fontWeight: 800,
-                      fontSize: 18,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      boxShadow: `0 0 18px ${ACCENT}55`,
-                      marginBottom: 14,
-                    }}>
-                      {i + 1}
-                    </div>
-                    <div style={{
-                      fontSize: "clamp(1.05rem, 1.4vw, 1.3rem)",
-                      fontWeight: 700,
-                      color: TEXT,
-                      letterSpacing: "-0.01em",
-                      marginBottom: 4,
-                    }}>
-                      {l.label}
-                    </div>
-                    <div style={{
-                      fontSize: "clamp(1.4rem, 2vw, 1.9rem)",
-                      fontWeight: 800,
-                      color: ACCENT,
-                      letterSpacing: "-0.02em",
-                      marginBottom: 6,
-                      fontVariantNumeric: "tabular-nums",
-                    }}>
-                      {l.duration}
-                    </div>
-                    <div style={{
-                      fontSize: "clamp(0.85rem, 1.1vw, 1rem)",
-                      color: TEXT,
-                      opacity: 0.85,
-                      lineHeight: 1.35,
-                      maxWidth: 220,
-                    }}>
-                      {l.note}
-                    </div>
+            {/* GROUP PROJECT */}
+            <div style={{ marginTop: "1.8rem", marginBottom: "1.1rem", fontSize: 12, fontWeight: 700, letterSpacing: 2.4, color: ACCENT }}>
+              GROUP PROJECT · ONE IDEA, THREE LOOPS
+            </div>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr",
+              gap: "1.4rem",
+              maxWidth: 1180,
+              margin: "0 auto",
+            }}>
+              {groupLoops.map((l, i) => (
+                <div key={i} style={{ textAlign: "center" }}>
+                  <LoopPill phases={groupPhases} />
+                  <div style={{ marginTop: "0.7rem", fontSize: "0.72rem", color: TEXT, opacity: 0.65, fontWeight: 700, letterSpacing: 1.6 }}>
+                    {l.label.toUpperCase()}
                   </div>
-                ))}
-              </div>
+                  <div style={{ fontSize: "clamp(1.25rem, 1.7vw, 1.55rem)", fontWeight: 800, color: ACCENT, fontVariantNumeric: "tabular-nums", letterSpacing: "-0.01em", marginTop: 2 }}>
+                    {l.duration}
+                  </div>
+                </div>
+              ))}
             </div>
 
-            {/* Group formation, three quick steps */}
+            {/* Faint divider */}
+            <div style={{ height: 1, background: "rgba(255,255,255,0.08)", maxWidth: 540, margin: "2.2rem auto 1.8rem" }} />
+
+            {/* YOUR OWN IDEA */}
+            <div style={{ marginBottom: "1.1rem", fontSize: 12, fontWeight: 700, letterSpacing: 2.4, color: ACCENT }}>
+              THEN · YOUR OWN IDEA, SOLO
+            </div>
+            <LoopPill phases={soloPhases} />
+            <div style={{ marginTop: "0.85rem", fontSize: "clamp(1.25rem, 1.7vw, 1.55rem)", fontWeight: 800, color: ACCENT, fontVariantNumeric: "tabular-nums" }}>
+              ~30 min
+            </div>
+
+            {/* FORM YOUR GROUPS — immediate next action */}
             <div style={{
-              display: "flex",
+              marginTop: "2.2rem",
+              display: "inline-flex",
               alignItems: "center",
               gap: 14,
-              padding: "1rem 1.2rem",
+              padding: "0.7rem 1.2rem",
               background: "rgba(255,255,255,0.04)",
               border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: 12,
@@ -1985,57 +1993,18 @@
                 FORM YOUR GROUPS
               </div>
               {[
-                <React.Fragment>Count off <strong style={{ color: ACCENT }}>1, 2, 3</strong> around the room</React.Fragment>,
+                <React.Fragment>Count off <strong style={{ color: ACCENT }}>1, 2, 3</strong></React.Fragment>,
                 <React.Fragment>Cluster into <strong style={{ color: ACCENT }}>groups of 3</strong></React.Fragment>,
-                <React.Fragment>Pick <strong style={{ color: ACCENT }}>one idea</strong> per group</React.Fragment>,
+                <React.Fragment>Pick <strong style={{ color: ACCENT }}>one idea</strong></React.Fragment>,
               ].map((step, i) => (
                 <React.Fragment key={i}>
-                  {i > 0 && <span style={{ color: ACCENT, opacity: 0.5, fontSize: "1.1rem", flexShrink: 0 }}>&#8594;</span>}
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1 }}>
+                  {i > 0 && <span style={{ color: ACCENT, opacity: 0.5, fontSize: "1.1rem" }}>&#8594;</span>}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{ width: 22, height: 22, borderRadius: "50%", background: ACCENT_DIM, color: ACCENT, fontWeight: 700, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{i + 1}</div>
-                    <span style={{ fontSize: "clamp(0.85rem, 1.05vw, 1rem)", color: TEXT, lineHeight: 1.3 }}>{step}</span>
+                    <span style={{ fontSize: "0.95rem", color: TEXT, lineHeight: 1.3 }}>{step}</span>
                   </div>
                 </React.Fragment>
               ))}
-            </div>
-
-            {/* Reassurance + end-of-workshop callouts */}
-            <div style={{
-              marginTop: "0.9rem",
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "0.9rem",
-            }}>
-              <div style={{
-                padding: "0.7rem 1.1rem",
-                background: "rgba(255,255,255,0.04)",
-                borderLeft: `3px solid ${ACCENT}`,
-                borderRadius: 8,
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-              }}>
-                <span style={{ fontSize: "1.5rem" }}>🎒</span>
-                <div style={{ fontSize: "clamp(0.9rem, 1.15vw, 1.1rem)", color: TEXT, lineHeight: 1.35 }}>
-                  <strong style={{ color: ACCENT }}>Not your idea? Perfect.</strong>{" "}
-                  The takeaway is the process. Your own idea gets its turn in the final hour.
-                </div>
-              </div>
-              <div style={{
-                padding: "0.7rem 1.1rem",
-                background: ACCENT_DIM,
-                borderLeft: `3px solid ${ACCENT}`,
-                borderRadius: 8,
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-              }}>
-                <span style={{ fontSize: "1.5rem" }}>🎤</span>
-                <div style={{ fontSize: "clamp(0.9rem, 1.15vw, 1.1rem)", color: TEXT, lineHeight: 1.35 }}>
-                  <strong style={{ color: ACCENT }}>At the end:</strong>{" "}
-                  each group reads their hypothesis aloud. No pitching, just the bet.
-                </div>
-              </div>
             </div>
           </div>
         </SlideShell>
@@ -2198,10 +2167,13 @@
                 <RoleHead emoji="🧭" name="GUIDE" tagline="Set the scene, then go quiet." />
                 <Callout>
                   <strong>Words only:</strong> who they are, where they are, what they're doing. Then unveil and go quiet. <strong>Don't explain. Don't point.</strong>
+                  <div style={{ marginTop: 8, fontSize: "clamp(0.76rem, 0.9vw, 0.86rem)", color: TEXT_MUTED, fontStyle: "italic", lineHeight: 1.4 }}>
+                    Keep ready: "There are no wrong answers. If you're stuck, that's on us, not you."
+                  </div>
                 </Callout>
-                <div style={{ fontSize: "clamp(0.78rem, 0.95vw, 0.9rem)", color: TEXT_MUTED, fontStyle: "italic", lineHeight: 1.4 }}>
-                  Keep ready: "There are no wrong answers. If you're stuck, that's on us, not you."
-                </div>
+                <Callout>
+                  <strong>If they truly can't move:</strong> pause the test, quickly adjust the prototype, then resume. Never direct them.
+                </Callout>
               </div>
 
               {/* SCRIBE */}
@@ -2682,41 +2654,46 @@
       </React.Fragment>
     );
 
-    // Reusable phase card — clean numbered section that scans well from across a room
-    function PhaseCard({ number, label, sublabel, items, children }) {
+    // Reusable phase card. Compact single-row header (emoji + breadcrumb-style
+    // chip label + optional sublabel) mirrors the surrounding swap-slide
+    // RoleJob cards and the breadcrumb chip styling at the top of every timer
+    // slide, so the synthesis bodies read as the same family of containers.
+    function PhaseCard({ icon, label, sublabel, items, children }) {
       return (
         <div style={{
-          padding: "0.7rem 0.95rem 0.8rem",
+          padding: "0.65rem 0.95rem 0.7rem 0.8rem",
           background: "rgba(255,255,255,0.04)",
           borderLeft: `3px solid ${ACCENT}`,
-          borderRadius: "0 10px 10px 0",
+          borderRadius: "0 8px 8px 0",
           marginBottom: "0.55rem",
         }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 5 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+            {icon && (
+              <span style={{ fontSize: "1.15rem", lineHeight: 1, flexShrink: 0 }}>
+                {icon}
+              </span>
+            )}
             <span style={{
-              fontSize: "1.5rem",
-              fontWeight: 800,
-              color: ACCENT,
-              lineHeight: 1,
-              letterSpacing: "-0.02em",
-            }}>
-              {number}
-            </span>
-            <span style={{
-              fontSize: "0.78rem",
-              letterSpacing: 1.6,
+              padding: "0.2rem 0.55rem",
+              borderRadius: 6,
+              background: ACCENT_DIM,
+              border: `1px solid ${ACCENT}`,
               color: ACCENT,
               fontWeight: 700,
+              fontSize: "0.72rem",
+              letterSpacing: 1.4,
+              whiteSpace: "nowrap",
             }}>
               {label}
             </span>
             {sublabel && (
               <span style={{
-                fontSize: "0.7rem",
+                fontSize: "0.72rem",
                 color: TEXT_MUTED,
                 fontWeight: 600,
                 marginLeft: "auto",
                 fontStyle: "italic",
+                whiteSpace: "nowrap",
               }}>
                 {sublabel}
               </span>
@@ -2736,7 +2713,7 @@
     const slide20Body = (
       <React.Fragment>
         <PhaseCard
-          number="1"
+          icon="💡"
           label="IDEA"
           sublabel="2 min"
           items={[
@@ -2744,7 +2721,7 @@
           ]}
         />
         <PhaseCard
-          number="2"
+          icon="🗺️"
           label="PLAN"
           sublabel="quick pass"
           items={[
@@ -2752,7 +2729,7 @@
           ]}
         />
         <PhaseCard
-          number="3"
+          icon="✏️"
           label="CREATE"
           sublabel="remaining time"
           items={[
@@ -2765,7 +2742,7 @@
     const slide22Body = (
       <React.Fragment>
         <PhaseCard
-          number="1"
+          icon="💡"
           label="IDEA"
           sublabel="2 min"
           items={[
@@ -2773,7 +2750,7 @@
           ]}
         />
         <PhaseCard
-          number="2"
+          icon="🗺️"
           label="PLAN"
           sublabel="quick pass"
           items={[
@@ -2781,7 +2758,7 @@
           ]}
         />
         <PhaseCard
-          number="3"
+          icon="✏️"
           label="CREATE"
           sublabel="remaining time"
           items={[
@@ -2796,14 +2773,14 @@
     const debriefBody = (
       <React.Fragment>
         <PhaseCard
-          number="1"
+          icon="🔁"
           label="REVISIT"
           items={[
             <span key="a"><strong>Reread your original hypothesis.</strong> How close did you get to falsifying it?</span>,
           ]}
         />
         <PhaseCard
-          number="2"
+          icon="🗂️"
           label="CATEGORIZE"
           items={[
             <span key="a">What patterns emerged?</span>,
@@ -2811,7 +2788,7 @@
           ]}
         />
         <PhaseCard
-          number="3"
+          icon="🎤"
           label="PREPARE"
           items={[
             <span key="a"><strong style={{ color: ACCENT }}>Pick who reads your hypothesis aloud.</strong> Word for word, straight off the sheet. No pitching.</span>,
@@ -3143,7 +3120,7 @@
     const pv1Body = (
       <React.Fragment>
         <PhaseCard
-          number="1"
+          icon="💡"
           label="IDEA"
           sublabel="start here"
           items={[
@@ -3152,7 +3129,7 @@
           ]}
         />
         <PhaseCard
-          number="2"
+          icon="🛠️"
           label="PLAN → CREATE"
           sublabel="keep moving"
           items={[
@@ -3160,7 +3137,7 @@
           ]}
         />
         <PhaseCard
-          number="3"
+          icon="👀"
           label="TEST"
           sublabel="get ready"
           items={[
@@ -3190,11 +3167,29 @@
 
     // Step 3: feed observations back into the app and trigger synthesis
     const pv3Body = (
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-        <Bullet>Feed what you heard and saw <strong>back into the app</strong></Bullet>
-        <Bullet>Trigger <strong style={{ color: ACCENT }}>synthesis</strong> and read its assessment of your hypothesis</Bullet>
-        <Bullet>Choose your <strong>next bet</strong>. The loop keeps running after today</Bullet>
-      </ul>
+      <React.Fragment>
+        <PhaseCard
+          icon="📥"
+          label="FEED"
+          items={[
+            <span key="a">Feed what you heard and saw <strong>back into the app</strong>.</span>,
+          ]}
+        />
+        <PhaseCard
+          icon="🧪"
+          label="SYNTHESIZE"
+          items={[
+            <span key="a">Trigger <strong style={{ color: ACCENT }}>synthesis</strong> and read its assessment of your hypothesis.</span>,
+          ]}
+        />
+        <PhaseCard
+          icon="🎯"
+          label="NEXT BET"
+          items={[
+            <span key="a">Choose your <strong>next bet</strong>. The loop keeps running after today.</span>,
+          ]}
+        />
+      </React.Fragment>
     );
 
     // Solo phase kickoff: bespoke access QR for the ProtoVibing app.
@@ -3497,13 +3492,14 @@
       { id: 4, render: () => <Slide4 /> },  // Gardening + Fidelity follows validation
       { id: 5, render: () => <ProtoVibingLoopSlide /> },  // Idea → Plan → Create → Test breakdown
       { id: 6, render: () => <Slide7 /> },  // Workshop overview + group formation + one idea per group
+      // Roles + testing playbook moved up-front: prior-workshop feedback was that
+      // participants want this context before they start building, not right before testing.
+      { id: 10, render: () => <Slide9 /> },  // Three Roles (Guide / Scribe / Fresh Eyes, one slide, poster-ready)
+      { id: 11, render: () => <Slide11 /> }, // During Testing playbook
       // LOOP 1 · build cycle, slow and guided. Hypothesis on the printed worksheet.
       { id: 7, crumb: { loop: 1, phases: ["IDEA"] }, render: ({ isActive, audio }) => <TimerSlide title="Write the hypothesis you will test" subtitle="Use the printed worksheet. Small wedge, one customer type." duration={300} body={hypothesisBody} variant="bright" isActive={isActive} audio={audio} /> },
       { id: 8, crumb: { loop: 1, phases: ["PLAN"] }, render: ({ isActive, audio }) => <TimerSlide title="Build your journey map" duration={480} body={slide17Body} variant="focused" isActive={isActive} audio={audio} /> },
       { id: 9, crumb: { loop: 1, phases: ["CREATE"] }, render: ({ isActive, audio }) => <TimerSlide title="Make it physical / real" duration={600} body={slide18Body} variant="warm" isActive={isActive} audio={audio} /> },
-      // Roles teach-in lands right before the first test, while it matters
-      { id: 10, render: () => <Slide9 /> },  // Three Roles (Guide / Scribe / Fresh Eyes, one slide, poster-ready)
-      { id: 11, render: () => <Slide11 /> }, // During Testing playbook
       { id: 12, crumb: { loop: 1, phases: ["TEST"] }, render: ({ isActive, audio }) => <TimerSlide title="Swap + Experience" subtitle="Hand the role cards. Hide the artifacts until the scene is set." duration={420} body={swapBody} variant="driving" isActive={isActive} audio={audio} /> },
       // LOOPS 2 + 3 · combined build, then test
       { id: 13, crumb: { loop: 2, phases: ["IDEA", "PLAN", "CREATE"] }, render: ({ isActive, audio }) => <TimerSlide title="Synthesize Loop 1 learnings & iterate" duration={600} body={slide20Body} variant="focused" isActive={isActive} audio={audio} /> },

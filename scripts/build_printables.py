@@ -215,6 +215,7 @@ CARDS = [
             "Reveal the prototype. Then silence.",
         ],
         "keep": '"There are no wrong answers. If you\'re stuck, that\'s on us, not you."',
+        "pause": "pause the test, quickly adjust the prototype, then resume. Never direct them.",
         "dont": ["Defend (pitch)", "Direct", "Design", "Research"],
     },
     {
@@ -321,19 +322,28 @@ def build_role_cards(path):
                 y -= 13
             y -= 7
 
-        # Keep ready quote (Guide only)
-        if card["keep"]:
+        # Keep ready quote + escape-hatch (Guide only)
+        if card.get("keep") or card.get("pause"):
             y -= 4
-            lines = wrap_text(c, "Keep ready: " + card["keep"], "Helvetica-Oblique", 9, inner_w - 16)
-            box_h = len(lines) * 12 + 16
+            sections = []
+            if card.get("keep"):
+                sections.append(wrap_text(c, "Keep ready: " + card["keep"], "Helvetica-Oblique", 9, inner_w - 16))
+            if card.get("pause"):
+                sections.append(wrap_text(c, "If they truly can't move: " + card["pause"], "Helvetica-Oblique", 9, inner_w - 16))
+            total_lines = sum(len(s) for s in sections)
+            section_gap = 6
+            box_h = total_lines * 12 + 16 + section_gap * (len(sections) - 1)
             c.setFillColor(YELLOW_TINT)
             c.roundRect(tx - 2, y - box_h + 10, inner_w + 4, box_h, 6, stroke=0, fill=1)
             c.setFillColor(DARK)
             c.setFont("Helvetica-Oblique", 9)
             yy = y - 4
-            for ln in lines:
-                c.drawString(tx + 6, yy, ln)
-                yy -= 12
+            for idx, section in enumerate(sections):
+                if idx > 0:
+                    yy -= section_gap
+                for ln in section:
+                    c.drawString(tx + 6, yy, ln)
+                    yy -= 12
             y = yy - 14
 
         # DO NOT box
