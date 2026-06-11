@@ -2991,18 +2991,13 @@
       const showInput = t.isIdle || t.ended;
       const canStart = name.trim().length > 0;
 
-      useEffect(() => {
-        if (isActive && showInput && inputRef.current) {
-          setTimeout(() => inputRef.current && inputRef.current.focus(), 200);
-        }
-      }, [isActive, showInput]);
-
+      // No autofocus on the name input: focus would swallow arrow-key slide nav.
+      // The presenter clicks into the field deliberately.
       const handleStart = () => { if (canStart) t.start(); };
       const handleNext = () => {
         setName("");
         setPresIndex((n) => n + 1);
         t.reset();
-        setTimeout(() => inputRef.current && inputRef.current.focus(), 80);
       };
 
       return (
@@ -3470,11 +3465,7 @@
       { id: 16, crumb: { loop: 3, phases: ["TEST"] }, render: ({ isActive, audio }) => <TimerSlide title="Swap + Experience: Final rotation!" duration={360} body={swapBodyL3} variant="driving" isActive={isActive} audio={audio} /> },
       // DEBRIEF · timed synthesis, then hypothesis read-outs (no pitching)
       { id: 17, crumb: { all: true }, render: ({ isActive, audio }) => <Slide24 isActive={isActive} audio={audio} /> },
-      { id: 18, render: ({ isActive, audio }) => <PresentationTimerSlide isActive={isActive} audio={audio} duration={90} promptItems={[
-        <React.Fragment key="a"><strong>Read your hypothesis aloud</strong>, word for word, straight off the sheet</React.Fragment>,
-        <React.Fragment key="b">One <strong>pattern</strong> that emerged across the three loops</React.Fragment>,
-        <React.Fragment key="c">What you would <strong>test next</strong></React.Fragment>,
-      ]} /> },
+      { id: 18, render: ({ isActive, audio }) => <PresentationTimerSlide isActive={isActive} audio={audio} duration={90} /> },  // uses default prompts: hypothesis / evolution / learnings
       // PROTOVIBING SESSION · your own idea, three timed steps mirroring the paper loops
       { id: 19, render: () => <SlideBrowserDemo /> },  // Live app demo in browser chrome
       { id: 20, render: () => <SoloLaunchSlide /> },  // Your turn + bespoke access QR (swap qr-protovibing-access.png when Marc provides the code)
